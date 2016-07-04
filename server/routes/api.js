@@ -3,7 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.use('/crud', require('./cruds'));
-router.use('/user', require('./users'));
+router.use('/albums', require('./albums'));
+router.use('/photos', require('./photos'));
 
 module.exports = router;
