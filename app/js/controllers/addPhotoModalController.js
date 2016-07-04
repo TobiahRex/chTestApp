@@ -6,7 +6,6 @@ angular.module('fullStackTemplate')
 
   $scope.createPhoto = () => {
     console.log('$scope.photo: ', $scope.photo);
-    let photo = $scope.photo
     $uibModalInstance.close(photo);
   };
 

@@ -14,6 +14,7 @@ angular.module('fullStackTemplate')
     controller      :    'homeController'
   })
   .state('albums', {
+    url             :    '/albums',
     templateUrl     :    'html/albums.html',
     controller      :    'albumsController',
     resolve         :   {

@@ -5,7 +5,28 @@ angular.module('fullStackTemplate')
   console.log('photosCtrl');
 
   let allPhotos = dbPhotos;
-  $scope.Photos = allPhotos.data;
+  $scope.Photos = angular.copy(allPhotos.data);
+
+  let renderPhotos = photo => {
+    Photo.createPhoto(photo)
+    .then(res=>{
+      $scope.Photos = angular.copy(res.data);
+    })
+    .catch(err=>{
+      $q.reject();
+      console.log('photo add did not work: ', err );
+    });
+  };
+
+  let deletePhoto = photo => {
+    Photo.deleteOne(photo._id)
+    .then(res=>{
+      $state.go('photos');
+    })
+    .catch(res=>{
+      $state.go('photos');
+    });
+  };
 
   //////////////////////////////////////////////////////////////////////
   // Add Photo
@@ -19,7 +40,7 @@ angular.module('fullStackTemplate')
     });
 
     modalInstance.result.then(function (photo) {
-      console.log('photo: ', photo);
+      renderPhotos(photo);
     }, function (something) {
       console.log('something: ', something);
       $log.info('Modal dismissed at: ' + new Date());
@@ -54,7 +75,7 @@ angular.module('fullStackTemplate')
       resolve : { deletePhoto : ()=> photo }
     });
     modalInstance.result.then(function (deletePhoto) {
-      console.log('deletePhoto: ', deletePhoto);
+      deletePhoto(deltePhoto);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
