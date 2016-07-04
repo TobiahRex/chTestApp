@@ -1,10 +1,43 @@
 <div class="container">
-  <h1>
-    Home
-  </h1>
-  <hr>
-  <pre>
-    {{ Albums | json }}
-  </pre>
+  <div class="template-header jumbotron text-center">
+    <h1>Coding House Test</h1>
+    <blockquote>
+      <p class="lead">
+        Photo Album Manage App.
+      </p>
+    </blockquote>
+  </div>
+  <!-- TEMPLATES -->
+  <!-- TEMPLATES -->
+  <div class="template-header text-center">
 
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>
+            <a ui-sref="photos" ><i class="fa fa-camera fa-5x fa-fw margin-bottom text-success"></i></a>
+          </td>
+          <td>
+            <a ui-sref="albums"><i class="fa fa-book fa-5x fa-fw margin-bottom text-info"></i></a>
+          </td>
+        </tr>
+        <tr></td>
+          <td>
+            <p>
+              <b>
+                <h4 class='text-success'> Photos </h4>
+              </b>
+            </p>
+          </td>
+          <td>
+            <p>
+              <b>
+                <h4 class='text-info'>Albums</h4>
+              </b>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -81,11 +81,11 @@
       <div class="collapse navbar-collapse" id='collapse-nav'>
         <ul class="nav navbar-nav navbar-right">
           <!-- if logged in -->
-          <li class="active"><a ng-show='currentUser' ui-sref='profile'>Profile</a></li>
-          <li class="active"><a ng-show='currentUser' ui-sref='logout'>Logout</a></li>
+          <li class="active"><a ui-sref='albums'>Albums</a></li>
+          <li class="active"><a ui-sref='photos'>Photos</a></li>
           <!-- if NOT logged in -->
-          <li class="active"><a ng-hide='currentUser' ui-sref='login'>Login</a></li>
-          <li class="active"><a ng-hide='currentUser' ui-sref='register'>Register</a></li>
+          <!-- <li class="active"><a ui-sref='login'>Login</a></li>
+          <li class="active"><a ui-sref='register'>Register</a></li> -->
         </ul>
       </div>
     </div>
