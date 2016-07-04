@@ -11,7 +11,16 @@ angular.module('fullStackTemplate')
   .state('home', {
     url             :    '/home',
     templateUrl     :    'html/home.html',
-    controller      :    'homeController'
+    controller      :    'homeController',
+    resolve         :   {
+      dbAlbums  :   function(Album, $q, $state){
+        return Album.getAlbums()
+        .catch(()=> {
+          $q.reject();
+          $state.go('splash');
+        })
+      }
+    }
   })
   .state('register', {
     url             :    '/register',

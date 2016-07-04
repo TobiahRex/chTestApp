@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('homeController', function($scope, $state, Items, allItems){
+.controller('homeController', function($scope, $state, Album, Photo, dbAlbums){
   console.log('homeCtrl');
 
-  let allItemsObj = allItems;
-  $scope.allItems = allItemsObj.data;
+  let allAlbums = dbAlbums;
+  $scope.Albums = allAlbums.data;
 
 });
