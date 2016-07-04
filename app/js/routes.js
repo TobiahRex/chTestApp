@@ -14,13 +14,13 @@ angular.module('fullStackTemplate')
     controller      :    'homeController'
   })
   .state('albums', {
-    url             :    '/albums',
     templateUrl     :    'html/albums.html',
     controller      :    'albumsController',
     resolve         :   {
       dbAlbums  :   function(Album, $q, $state){
         return Album.getAlbums()
         .catch(()=> {
+          console.log('could not get albums');
           $q.reject();
           $state.go('splash');
         })
@@ -33,8 +33,9 @@ angular.module('fullStackTemplate')
     controller      :    'photosController',
     resolve         :   {
       dbPhotos  :   function(Photo, $q, $state){
-        return Photo.getAlbums()
+        return Photo.getPhotos()
         .catch(()=> {
+          console.log('could not get photos');
           $q.reject();
           $state.go('splash');
         })
