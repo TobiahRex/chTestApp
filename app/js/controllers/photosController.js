@@ -75,7 +75,7 @@ angular.module('fullStackTemplate')
       resolve : { deletePhoto : ()=> photo }
     });
     modalInstance.result.then(function (deletePhoto) {
-      deletePhoto(deltePhoto);
+      deletePhoto(deletePhoto);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });

@@ -3,7 +3,7 @@
     <i class="fa fa-book fa-5x fa-fw  text-info margin-bottom"></i>
     <h3 class="text-center">Albums</h3>
     <hr>
-    <button ng-click='addProperty()' class="btn btn-info"> <i class="fa fa-3x fa-plus-circle"></i></button>
+    <button ng-click='addAlbum()' class="btn btn-info"> <i class="fa fa-3x fa-plus-circle"></i></button>
   </div>
   <br>
   <div class="template-header">
@@ -21,9 +21,8 @@
           <td class='text-center text-primary '>{{$index + 1}}</td>
           <td class='text-center text-primary '>{{album.name}}</td>
           <td class='text-center text-success' >{{album.photos}}</td>
-          <td class='text-center'> <img class='album-thumbnails' ng-src='{{album.url}}' alt="http://1.bp.blogspot.com/-Zr0pmj1bLnM/Uhh7kROhGYI/AAAAAAAAGkE/W51xFS75-Ec/s1600/no-thumbnail.png" /> </td>
           <td class='text-center'>
-            <button ng-click='deleteProperty({album})' class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button> <button ng-click='editProperty({photo})' class="btn btn-info"> <i class="fa fa-edit"></i> Edit</button>
+            <button ng-click='deleteAlbum({album})' class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button> <button ng-click='editAlbum({album})' class="btn btn-info"> <i class="fa fa-edit"></i> Edit</button>
           </td>
         </tr>
 
