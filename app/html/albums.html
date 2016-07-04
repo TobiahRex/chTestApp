@@ -22,13 +22,8 @@
           <td class='text-center text-primary '>{{album.name}}</td>
           <td class='text-center text-success' >{{album.photos}}</td>
           <td class='text-center'>
-            <button ng-click='deleteAlbum({album})' class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button> <button ng-click='editAlbum({album})' class="btn btn-info"> <i class="fa fa-edit"></i> Edit</button> <button ng-click='addPhoto()' class="btn btn-success"> <i class="fa fa-plus"></i> Add Photos</button>
+            <button ng-click='deleteAlbum({album})' class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button> <button ng-click='editAlbum({album})' class="btn btn-info"> <i class="fa fa-edit"></i> Edit</button> <button ng-click='addPhoto({album})' class="btn btn-success"> <i class="fa fa-plus"></i> Add Photos</button>
           </td>
         </tr>
       </tbody>
     </table>
-    
-
-    <pre>
-      {{ Albums | json }}
-    </pre>

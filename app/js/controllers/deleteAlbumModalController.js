@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('deleteTenantModalController', function ($scope, $uibModalInstance, Tenant, deleteTenant) {
-  console.log('deleteTenantModalCtrl');
-  $scope.tenant = deleteTenant.tenant;
-  // console.log('$scope.tenant: ', $scope.tenant);
-  $scope.deleteTenant = () => {
-    let deleteTenant = $scope.tenant
-    $uibModalInstance.close(deleteTenant);
+.controller('deleteAlbumModalController', function ($scope, $uibModalInstance, deleteAlbum) {
+  console.log('deleteAlbumModalController');
+
+  $scope.album = deleteAlbum.album;
+
+
+  $scope.deleteAlbum = () => {
+    let deleteAlbum = $scope.album
+    $uibModalInstance.close(deleteAlbum._id);
   };
   $scope.cancel = () => {
     $uibModalInstance.dismiss();

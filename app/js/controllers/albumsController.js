@@ -1,16 +1,26 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('albumsController', function($scope, $state, Album, Photo, dbAlbums, $uibModal, $log){
+.controller('albumsController', function($scope, $state, Album, Photo, $uibModal, $log){
   console.log('albumsCtrl');
 
-  let allAlbums = dbAlbums;
-  $scope.Albums = allAlbums.data;
 
-  let renderAlbums = album => {
+
+  let renderAlbums = () => {
+    Album.getAlbums()
+    .then(res=> {
+      console.log(res.data);
+      $scope.Albums = res.data;
+    });
+  }
+
+  renderAlbums();
+
+  let createAlbum = album => {
     Album.createAlbum(album)
     .then(res=>{
-      $scope.Albums = angular.copy(res.data);
+
+      renderAlbums();
     })
     .catch(err=>{
       $q.reject();
@@ -19,20 +29,27 @@ angular.module('fullStackTemplate')
   };
 
 
-  let deleteAlbum = album => {
-    Album.deleteOne(album._id)
+  let removeAlbum = album => {
+    Album.deleteOne(album)
     .then(res=>{
-      $state.go('albums');
+      renderAlbums();
     })
     .catch(res=>{
       $state.go('albums');
     });
   };
 
+  let insertPhoto = idObj => {
+    Album.addPhoto(idObj)
+    .then(()=> {
+      renderAlbums();
+    })
+  };
+
   //////////////////////////////////////////////////////////////////////
   // Add photo modal
 
-  $scope.addPhoto = () => {
+  $scope.addPhoto = album => {
     var modalInstance = $uibModal.open({
       keyboard: true,
       animation: true,
@@ -45,68 +62,70 @@ angular.module('fullStackTemplate')
           .catch(()=> {
             $q.reject();
           });
-        }
+        },
+        album
       }
-  });
+    });
 
-  modalInstance.result.then(function (album) {
-    renderAlbums(album);
-  }, function (something) {
-    console.log('something: ', something);
-    $log.info('Modal dismissed at: ' + new Date());
-  });
-};
+    modalInstance.result.then(function (idObj) {
+      insertPhoto(idObj)
+    }, function (something) {
+      console.log('something: ', something);
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
 
-//////////////////////////////////////////////////////////////////////
-// Add Album
-$scope.addAlbum = () => {
-  var modalInstance = $uibModal.open({
-    keyboard: true,
-    animation: true,
-    templateUrl: '/uib/template/modal/addAlbumModal.html',
-    controller: 'addAlbumModalController',
-    size: 'lg',
-  });
+  //////////////////////////////////////////////////////////////////////
+  // Add Album
+  $scope.addAlbum = () => {
+    var modalInstance = $uibModal.open({
+      keyboard: true,
+      animation: true,
+      templateUrl: '/uib/template/modal/addAlbumModal.html',
+      controller: 'addAlbumModalController',
+      size: 'lg',
+    });
 
-  modalInstance.result.then(function (album) {
-    renderAlbums(album);
-  }, function (something) {
-    console.log('something: ', something);
-    $log.info('Modal dismissed at: ' + new Date());
-  });
-};
+    modalInstance.result.then(function (album) {
+      renderAlbums(album);
+    }, function (something) {
+      console.log('something: ', something);
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
 
-////////////////////////////////////////////////////////////////////////
-/// Edit Album
-$scope.editAlbum = album => {
-  var modalInstance = $uibModal.open({
-    animation: true,
-    templateUrl: '/uib/template/modal/editAlbumModal.html',
-    controller: 'editAlbumModalController',
-    size: 'lg',
-    resolve : { editAlbum : ()=> album }
-  });
-  modalInstance.result.then(function (editedAlbum) {
-    console.log('editedAlbum: ', editedAlbum);
-  }, function () {
-    $log.info('Modal dismissed at: ' + new Date());
-  });
-};
+  ////////////////////////////////////////////////////////////////////////
+  /// Edit Album
+  $scope.editAlbum = album => {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: '/uib/template/modal/editAlbumModal.html',
+      controller: 'editAlbumModalController',
+      size: 'lg',
+      resolve : { editAlbum : ()=> album }
+    });
+    modalInstance.result.then(function (editedAlbum) {
+      console.log('editedAlbum: ', editedAlbum);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
 
-////////////////////////////////////////////////////////////////////////
-/// Delete Album
-$scope.deleteAlbum = album => {
-  var modalInstance = $uibModal.open({
-    animation: true,
-    templateUrl: '/uib/template/modal/deleteAlbumModal.html',
-    controller: 'deleteAlbumModalController',
-    size: 'lg',
-    resolve : { deleteAlbum : ()=> album }
-  });
-  modalInstance.result.then(function (deleteAlbum) {
-    deleteAlbum(deleteAlbum);
-  }, function () {
-    $log.info('Modal dismissed at: ' + new Date());
-  });
-};
+  ////////////////////////////////////////////////////////////////////////
+  /// Delete Album
+  $scope.deleteAlbum = album => {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: '/uib/template/modal/deleteAlbumModal.html',
+      controller: 'deleteAlbumModalController',
+      size: 'lg',
+      resolve : { deleteAlbum : ()=> album }
+    });
+    modalInstance.result.then(function (albumId) {
+      console.log(albumId);
+      removeAlbum(albumId);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
 });
