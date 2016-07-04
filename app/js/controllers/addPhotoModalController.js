@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('addPropertyModalController', function ($scope, $uibModalInstance, Tenant) {
-  console.log('addPropertyModalCtrl');
+.controller('addPhotoModalController', function ($scope, $uibModalInstance, Photo) {
+  console.log('addPhotoModalCtrl');
 
-  $scope.createTenant = () => {
-    console.log('$scope.tenant: ', $scope.tenant);
-    let tenant = $scope.tenant
-    $uibModalInstance.close(tenant);
+  $scope.createPhoto = () => {
+    console.log('$scope.photo: ', $scope.photo);
+    let photo = $scope.photo
+    $uibModalInstance.close(photo);
   };
 
   $scope.cancel = () => {
