@@ -14,9 +14,9 @@ router.route('/:id')
 .delete((req, res)  => Album.findByIdAndRemove(req.params.id, res.handle))
 .put((req, res)     =>  Album.findByIdAndUpdate(req.params.id, { $set: req.body }, {new: true}, res.handle));
 
+
 router.route('/:id_album/photo/:id_photo')
 .post((req, res)    => Album.addPhoto(req.params, res.handle))
-.put((req, res)     => Album.editPhoto(req.params, res.handle))
 .delete((req, res)  => Album.removePhoto(req.params, res.handle));
 
 
