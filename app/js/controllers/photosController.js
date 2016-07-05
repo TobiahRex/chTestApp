@@ -1,31 +1,25 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('photosController', function($scope, $state, Photo, dbPhotos, $uibModal, $log){
-  console.log('photosCtrl');
+.controller('photosController', function($scope, $state, Photo, dbPhotos, $uibModal, $log, $q){
+  $scope.Photos = dbPhotos.data
 
-  let allPhotos = dbPhotos;
-  $scope.Photos = angular.copy(allPhotos.data);
+  let renderPhotos = () => {
+    Photo.getPhotos
+    .then(res => $scope.Photos = res.data)
+    .catch(err => $q.reject());
+  }
 
-  let renderPhotos = photo => {
+  let addPhoto = photo => {
     Photo.createPhoto(photo)
-    .then(res=>{
-      $scope.Photos = angular.copy(res.data);
-    })
-    .catch(err=>{
-      $q.reject();
-      console.log('photo add did not work: ', err );
-    });
+    .then(res => $scope.Photos = res.data)
+    .catch(err => $q.reject());
   };
 
   let deletePhoto = photo => {
     Photo.deleteOne(photo._id)
-    .then(res=>{
-      $state.go('photos');
-    })
-    .catch(res=>{
-      $state.go('photos');
-    });
+    .then(res => renderPhotos())
+    .catch(res=> $q.reject());
   };
 
   //////////////////////////////////////////////////////////////////////
@@ -38,13 +32,9 @@ angular.module('fullStackTemplate')
       controller: 'addPhotoModalController',
       size: 'lg',
     });
-
-    modalInstance.result.then(function (photo) {
-      renderPhotos(photo);
-    }, function (something) {
-      console.log('something: ', something);
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    modalInstance.result
+    .then(photo => addPhoto(photo),
+    _ => $log.info('Modal dismissed at: ' + new Date()));
   };
 
   ////////////////////////////////////////////////////////////////////////
@@ -57,11 +47,9 @@ angular.module('fullStackTemplate')
       size: 'lg',
       resolve : { editPhoto : ()=> photo }
     });
-    modalInstance.result.then(function (editedPhoto) {
+    modalInstance.result.then(editedPhoto => {
       console.log('editedPhoto: ', editedPhoto);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    }, _ => $log.info('Modal dismissed at: ' + new Date()));
   };
 
   ////////////////////////////////////////////////////////////////////////
@@ -74,10 +62,8 @@ angular.module('fullStackTemplate')
       size: 'lg',
       resolve : { deletePhoto : ()=> photo }
     });
-    modalInstance.result.then(function (deletePhoto) {
-      deletePhoto(deletePhoto);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    modalInstance.result
+    .then(deletePhoto => deletePhoto(deletePhoto), 
+    _ => $log.info('Modal dismissed at: ' + new Date()));
   };
 });
