@@ -1,53 +1,41 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('albumsController', function($scope, $state, Album, Photo, $uibModal, $log){
-  console.log('albumsCtrl');
-
-
+.controller('albumsController', function($scope, $state, Album, Photo, $uibModal, $log, $q){
 
   let renderAlbums = () => {
     Album.getAlbums()
-    .then(res=> {
-      console.log(res.data);
-      $scope.Albums = res.data;
-    });
-  }
+    .then(res => $scope.Albums = res.data)
+    .catch(err => $q.reject());
+  };
 
   renderAlbums();
 
   let createAlbum = album => {
     Album.createAlbum(album)
-    .then(res=>{
-
-      renderAlbums();
-    })
-    .catch(err=>{
-      $q.reject();
-      console.log('album add did not work: ', err );
-    });
+    .then(res => renderAlbums())
+    .catch(err => $q.reject());
   };
-
 
   let removeAlbum = album => {
     Album.deleteOne(album)
-    .then(res=>{
-      renderAlbums();
-    })
-    .catch(res=>{
-      $state.go('albums');
-    });
+    .then(res => renderAlbums())
+    .catch(res => $q.reject());
   };
+
+  let saveEdit = album =>
+  Album.editOne(album)
+  .then(res => renderAlbums())
+  .catch(err => $q.reject());
 
   let insertPhoto = idObj => {
     Album.addPhoto(idObj)
-    .then(()=> {
-      renderAlbums();
-    })
+    .then(res => renderAlbums())
+    .catch(err => $q.reject());
   };
 
   //////////////////////////////////////////////////////////////////////
-  // Add photo modal
+  // Add photo Modal
 
   $scope.addPhoto = album => {
     var modalInstance = $uibModal.open({
@@ -67,17 +55,14 @@ angular.module('fullStackTemplate')
       }
     });
 
-    modalInstance.result.then(function (idObj) {
-      insertPhoto(idObj)
-    }, function (something) {
-      console.log('something: ', something);
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    modalInstance.result
+    .then(idObj => insertPhoto(idObj),
+    _ => $log.info('Modal dismissed at: ' + new Date()));
   };
 
   //////////////////////////////////////////////////////////////////////
-  // Add Album
-  $scope.addAlbum = () => {
+  // Add Album Modal
+  $scope.addAlbum = _ => {
     var modalInstance = $uibModal.open({
       keyboard: true,
       animation: true,
@@ -86,16 +71,13 @@ angular.module('fullStackTemplate')
       size: 'lg',
     });
 
-    modalInstance.result.then(function (album) {
-      renderAlbums(album);
-    }, function (something) {
-      console.log('something: ', something);
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    modalInstance.result
+    .then(album => createAlbum(album),
+    _ => $log.info('Modal dismissed at: ' + new Date()));
   };
 
   ////////////////////////////////////////////////////////////////////////
-  /// Edit Album
+  /// Edit Album Modal
   $scope.editAlbum = album => {
     var modalInstance = $uibModal.open({
       animation: true,
@@ -104,15 +86,13 @@ angular.module('fullStackTemplate')
       size: 'lg',
       resolve : { editAlbum : ()=> album }
     });
-    modalInstance.result.then(function (editedAlbum) {
-      console.log('editedAlbum: ', editedAlbum);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    modalInstance.result
+    .then(editedAlbum => saveEdit(editedAlbum),
+    _ => $log.info('Modal dismissed at: ' + new Date()));
   };
 
   ////////////////////////////////////////////////////////////////////////
-  /// Delete Album
+  /// Delete Album Modal
   $scope.deleteAlbum = album => {
     var modalInstance = $uibModal.open({
       animation: true,
@@ -121,11 +101,7 @@ angular.module('fullStackTemplate')
       size: 'lg',
       resolve : { deleteAlbum : ()=> album }
     });
-    modalInstance.result.then(function (albumId) {
-      console.log(albumId);
-      removeAlbum(albumId);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    modalInstance.result.then(albumId => removeAlbum(albumId),
+    _ => $log.info('Modal dismissed at: ' + new Date()));
   };
 });
