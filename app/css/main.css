@@ -1,3 +1,15 @@
 td > img.photo-thumbnails {
   width : 50%;
 }
+
+td.home-cell {
+  border-color: #000000 !important;
+}
+
+hr {
+  border-color: #000000;
+}
+
+img.album-photo {
+  width: 100px;
+}

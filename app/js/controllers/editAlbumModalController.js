@@ -1,15 +1,11 @@
-'use strict';
-
-angular.module('fullStackTemplate')
-.controller('editTenantModalController', function ($scope, $uibModalInstance, Tenant, editTenant) {
+function editAlbumModalController($scope, $uibModalInstance, editAlbum) {
   console.log('editTenantModalCtrl');
-  $scope.tenant = editTenant.tenant;
-  // console.log('$scope.tenant: ', $scope.tenant);
+  $scope.album = editAlbum.album;
+  console.log('$scope.album: ', $scope.album);
   $scope.submitChanges = () => {
-    let editedTenant = $scope.tenant
-    $uibModalInstance.close(editedTenant);
+    $uibModalInstance.close($scope.album);
   };
-  $scope.cancel = () => {
-    $uibModalInstance.dismiss();
-  };
-});
+  $scope.cancel = () => $uibModalInstance.dismiss();
+}
+
+angular.module('fullStackTemplate').controller('editAlbumModalController', editAlbumModalController);

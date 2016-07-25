@@ -12,7 +12,7 @@ router.route('/')
 router.route('/:id')
 .get((req, res)     => Album.findById(req.params.id, res.handle))
 .delete((req, res)  => Album.findByIdAndRemove(req.params.id, res.handle))
-.put((req, res)     =>  Album.findByIdAndUpdate(req.params.id, { $set: req.body }, {new: true}, res.handle));
+.put((req, res)     =>  Album.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, res.handle));
 
 
 router.route('/:id_album/photo/:id_photo')

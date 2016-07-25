@@ -1,7 +1,4 @@
-'use strict';
-
-angular.module('fullStackTemplate')
-.controller('addAlbumModalController', function ($scope, $uibModalInstance) {
+function addAlbumModalController($scope, $uibModalInstance) {
   console.log('addAlbumModalCtrl');
 
   $scope.createAlbum = () => {
@@ -13,4 +10,6 @@ angular.module('fullStackTemplate')
   $scope.cancel = () => {
     $uibModalInstance.dismiss();
   };
-});
+};
+
+angular.module('fullStackTemplate').controller('addAlbumModalController', addAlbumModalController);

@@ -5,7 +5,10 @@ angular.module('fullStackTemplate')
 
   let renderAlbums = () => {
     Album.getAlbums()
-    .then(res => $scope.Albums = res.data)
+    .then(res => {
+      console.log('res.data: ', res.data);
+      $scope.Albums = res.data
+    })
     .catch(err => $q.reject());
   };
 
@@ -73,7 +76,7 @@ angular.module('fullStackTemplate')
 
     modalInstance.result
     .then(album => createAlbum(album),
-    _ => $log.info('Modal dismissed at: ' + new Date()));
+    () => $log.info('Modal dismissed at: ' + new Date()));
   };
 
   ////////////////////////////////////////////////////////////////////////
@@ -88,7 +91,7 @@ angular.module('fullStackTemplate')
     });
     modalInstance.result
     .then(editedAlbum => saveEdit(editedAlbum),
-    _ => $log.info('Modal dismissed at: ' + new Date()));
+    () => $log.info('Modal dismissed at: ' + new Date()));
   };
 
   ////////////////////////////////////////////////////////////////////////
@@ -102,6 +105,6 @@ angular.module('fullStackTemplate')
       resolve : { deleteAlbum : ()=> album }
     });
     modalInstance.result.then(albumId => removeAlbum(albumId),
-    _ => $log.info('Modal dismissed at: ' + new Date()));
+    () => $log.info('Modal dismissed at: ' + new Date()));
   };
 });

@@ -1,7 +1,4 @@
-'use strict';
-
-angular.module('fullStackTemplate')
-.controller('photosController', function($scope, $state, Photo, dbPhotos, $uibModal, $log, $q){
+function photosController($scope, $state, Photo, dbPhotos, $uibModal, $log, $q){
   $scope.Photos = dbPhotos.data
 
   let renderPhotos = () => {
@@ -63,7 +60,9 @@ angular.module('fullStackTemplate')
       resolve : { deletePhoto : ()=> photo }
     });
     modalInstance.result
-    .then(deletePhoto => deletePhoto(deletePhoto), 
+    .then(deletePhoto => deletePhoto(deletePhoto),
     _ => $log.info('Modal dismissed at: ' + new Date()));
   };
-});
+}
+
+angular.module('fullStackTemplate').controller('photosController', photosController);

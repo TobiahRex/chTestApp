@@ -1,30 +1,24 @@
 
 <div class="modal-header">
 
-  <h3 class="text-center modal-title"> <i class="text-info fa fa-2x fa-edit"></i> <br> Edit Tenant</h3>
+  <h3 class="text-center modal-title"> <i class="text-info fa fa-2x fa-edit"></i> <br> Edit Album</h3>
 </div>
 <div class="modal-body">
 
+  <pre>{{album | json}}</pre>
   <form>
     <form class="form-inline">
       <div class="form-group">
-        <label  class='text-info' for="first-name">First Name</label>
-        <input ng-model='tenant.Name.first' type="text" class="form-control" id="first-name" placeholder='{{tenant.Name.first}}'>
-        <label class='text-info'  for="last-name">Last Name</label>
-        <input ng-model='tenant.lastname' type="text" class="form-control" id="last-name" placeholder='{{tenant.Name.last}}'>
+        <label  class='text-info' for="first-name">Album Name</label>
+        <input ng-model='album.name' type="text" class="form-control col-xs-4" id="first-name">
       </div>
-      <div class="form-group">
-        <label class='text-info' for="email">Email</label>
-        <input ng-model='tenant.email' type="email" class="form-control" id="email" placeholder="{{tenant.Email}}">
-      </div>
-      <div class="form-group">
-        <label class="text-info control-label" for="phone">Phone Number</label>
-        <input ng-model='tenant.phone' type="tel" name='usrtel' class="form-control form-control-success" id="phone" placeholder="{{tenant.PhoneNumber}}">
-      </div>
-      <div class="form-group">
-        <label class="text-info control-label" for="phone">Address</label>
-        <input ng-model='tenant.Address' type="tel" name='usrtel' class="form-control form-control-success" id="phone" placeholder="{{tenant.Address}}">
-      </div>
+      <ul class='list-unstyled list-inline'>
+        <li ng-repeat='photo in album.photos track by $index' class='text-center'>
+          <label for="photo-{{$index}}">Photo {{$index + 1}}</label><br>
+          <img style='width: 100px;' id='photo-{{$index + 1}}' ng-src='{{photo.url}}'/><br><br>
+          <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+        </li>
+      </ul>
     </form>
     <!-- <ul>
     <li ng-repeat="item in items">
@@ -36,7 +30,7 @@ Selected: <b>{{ selected.item }}</b> -->
 <div class="modal-footer">
   <div class="row">
     <div class="col-xs-7">
-      <p class="pull-left"> <span class="text-info">Name</span> & <span class="text-info">Email</span> fields are <span class="text-danger">REQUIRED.</span></p>
+      <p class="pull-left"> <span class="text-info">Album Name</span> is<span class="text-danger"> REQUIRED.</span></p>
     </div>
     <div class="col-xs-5">
       <button class="btn btn-info" type="submit" ng-click='submitChanges()'>Submit Changes</button>
